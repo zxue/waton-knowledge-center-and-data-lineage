@@ -77,6 +77,19 @@ Alternatively, you can log in to OpenShift and apply the license key using the o
 oc set data secret/manta-keys -n <namespace> --from-file=license.key=./license.key
 ```
 
+## Configure Data Lineage Using Self-signed Certificates
+
+The “cert-tool.tar” utility file contains scripts to create and apply certificates to Manta services. Ask your system administrator to get a link to the file and download it. You can then extract the file to a local folder on your Linux or Mac. The scripts are now available.
+
+```
+tar -xvf cert-tool.tar
+chmod 775 cert-tool
+cd cert-tool
+```
+
+Make sure that you download and install “[jq](https://stedolan.github.io/jq/download/)” on your local machine. 
+
+
 ## Verify Data Lineage
 
 To verify that data lineage is working propertly, add a new asset to a project from the CP4D console. Click on "Metadata import", and select "Get lineage". If the option is grayed out, data lineage is not enabled or not configured propertly.
