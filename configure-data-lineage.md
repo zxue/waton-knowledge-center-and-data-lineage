@@ -79,7 +79,11 @@ oc set data secret/manta-keys -n <namespace> --from-file=license.key=./license.k
 
 ## Configure Data Lineage Using Self-signed Certificates
 
-The “cert-tool.tar” utility file contains scripts to create and apply certificates to Manta services. Ask your system administrator to get a link to the file and download it. You can then extract the file to a local folder on your Linux or Mac. The scripts are now available.
+This step is optional and only applicable if self-signed certificates are used. 
+
+Download the the “cert-tool.tar” utility file, which contains scripts to create and apply certificates to Manta services. This tool is currently available to IBM employees only. 
+
+You can then extract the file to a local folder on your Linux or Mac. The scripts are now available.
 
 ```
 tar -xvf cert-tool.tar
@@ -87,8 +91,116 @@ chmod 775 cert-tool
 cd cert-tool
 ```
 
-Make sure that you download and install “[jq](https://stedolan.github.io/jq/download/)” on your local machine. 
+The tool depends on “[jq](https://stedolan.github.io/jq/download/)” so make sure that you download and install it on your local machine.
 
+### Create and Apply Certificates for Manta
+
+Before running any scripts, update the several values in the config.properties file, cn, dns, and route. You can keep the cert_alias "as is" or rename it, and leave cert_filename and cert_key_filename blank unless you are using existing ones.
+
+```
+# Common Name (CN)
+# Example: cpd-wkc.apps.orion.cp.fyre.ibm.com
+# Important: This value must not exceed 64 characters, use a wildcard entry if it does
+#    Example: *.cp.fyre.ibm.com
+cn=*.xxx.containers.appdomain.cloud
+
+# DNS entry used in subject alternative names field (SAN)
+# Example: cpd-wkc.apps.orion.cp.fyre.ibm.com
+# Important: Always use the fully qualified domain name in this field.
+dns=cpd-cpd-instance.xxx.xxx.containers.appdomain.cloud
+
+# Project/namespace where WKC is installed.
+project=cpd-instance
+
+# Route name (Example: oc get route -n wkc)
+route=cpd
+
+# Certificate alias.
+cert_alias=ibm-nginx
+
+# Configuration for existing certificates.
+# Specify the certificate filename, key filename for existing certificates here.
+# Supported formats: X.509 v1, v2, and v3 certificates, 
+#    and PKCS#7 formatted certificate chains consisting of certificates of that type
+cert_filename=
+cert_key_filename=
+```
+
+Run the following command to install the certificates and enable basic authentication by entering "y" at the prompt. 
+
+```
+./install.sh
+```
+
+The install.sh script creates two certificate files, ibm-nginx.crt and bm-nginx.key, based on the values in the configu.properties. If you are running the script for another OpenShift, move the two files to a different folder or change the cert_alias value. Creating certificates for one cluster and applying them to a different cluster will result in errors subsequently. For example, when logging in to the Manta portal, you may see a blank screen, or when you run "./validate.sh", you may see incorrect connection to the service. 
+
+```
+./validate.sh
+Already on project “cpd-instance” on server “https://xxx.containers.cloud.ibm.com:31162”.
+Checking for alias: ibm-nginx in mantaflow keycloak.jks... OK
+Checking for alias: ibm-nginx in manta-dataflow-server keycloak.jks... OK
+Checking for alias: ibm-nginx in java cacerts... OK
+IAM integration enabled: <no value>
+Config map: metadata-discovery-service-config
+  Basic auth enabled: true
+  Use connection reference: false
+grep: invalid option -- P
+usage: grep [-abcdDEFGHhIiJLlMmnOopqRSsUVvwXxZz] [-A num] [-B num] [-C[num]]
+	[-e pattern] [-f file] [--binary-files=value] [--color=when]
+	[--context[=num]] [--directories=action] [--label] [--line-buffered]
+	[--null] [pattern] [file ...]
+```
+
+### Enable Signle Sign On Integration
+
+If the single sign on (SSO) is enabled in the cluster, you can also enable SSO integration with Manta at the step. The "install.sh" script automatically updates the registration.json file in the sso folder.
+
+```
+{
+  "token_endpoint_auth_method": "client_secret_basic",
+  "client_id": "manta",
+  "client_secret": "f7Eh3B5jaC",
+  "scope": "openid profile email",
+  "grant_types": [
+    "authorization_code",
+    "client_credentials",
+    "password",
+    "implicit",
+    "refresh_token",
+    "urn:ietf:params:oauth:grant-type:jwt-bearer"
+  ],
+  "response_types": ["code", "token", "id_token token"],
+  "application_type": "web",
+  "subject_type": "public",
+  "post_logout_redirect_uris": ["https://xxx.containers.cloud.ibm.com:30182"],
+  "preauthorized_scope": "openid profile email general",
+  "introspect_tokens": true,
+  "trusted_uri_prefixes": [
+    "https://xxx.containers.cloud.ibm.com:30182",
+    "https://xxx.containers.cloud.ibm.com:30182"
+  ],
+  "redirect_uris": [
+    "https://xxx.containers.cloud.ibm.com:30182/manta/auth/realms/manta/broker/iam/endpoint"
+  ]
+}
+```
+
+Note that SSO is not required and if it is not enabled, you can use basic authentication to log in to the Manta administration portal.
+
+### Obtain Admin Credentials
+
+You can find the basic authenticaiton password from the OpenShift console. Select Secrets under Workloads from the left side navigation pane. Search for "manta" or "credentials" in all projects or the project where Manta operator is installed, for example, "cpd-instance". Locate and click on "manta-credentials". Scroll down the page and copy the "Manta_Password".
+
+![Manta Credentials](media/manta-credentials.png)
+
+
+### Update Manta License Key with the Script
+
+Alternatively, you can update the Manta license key using the following command if necessary.
+
+```
+./update_license.sh
+```
 
 ## Verify Data Lineage
 
@@ -123,11 +235,7 @@ Technical Data Lineage
 
 ## Troubleshoot Data Lineage
 
-You can log in to the Manta admin console. If single sign one is not eabled, you will need the admin's password. You can find the basic authenticaiton password from the OpenShift console. 
-
-Select Secrets under Workloads from the left side navigation pane. Search for "manta" or "credentials" in all projects or the project where Manta operator is installed, for example, "cpd-instance". Locate and click on "manta-credentials". Scroll down the page and copy the "Manta_Password".
-
-![Manta Credentials](media/manta-credentials.png)
+You can log in to the Manta admin console. If single sign one is not eabled, you will need the admin's password. 
 
 Log in using the url below. Click on "Configuration" from the top, and select "License" from the left side. 
 
