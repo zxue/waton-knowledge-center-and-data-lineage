@@ -253,7 +253,7 @@ Seven-node cluster
 
 ![OpenShift with Seven Nodes](media/openshift-seven-node.png)
 
-Five-nocd cluster
+Five-node cluster
 
 ![OpenShift with Five Nodes](media/openshift-five-node.png)
 
