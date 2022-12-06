@@ -235,13 +235,52 @@ Technical Data Lineage
 
 ## Troubleshoot Data Lineage
 
-You can log in to the Manta admin console. If single sign one is not eabled, you will need the admin's password. 
+If for any reason data lineage does not appear to be working in your environment, make sure that data lineage has been eabled and updated with proper license. See more details in the "Verify Data Lineage" section.
 
-Log in using the url below. Click on "Configuration" from the top, and select "License" from the left side. 
+### Incompatible CP4D Versions
+
+Manta Automated Data Lineage is available and supported in CP4D version 4.5.3 or higher. If an incompatible version of CP4D is installed, you may notice that the Manta operator is not installed property.  Even if you try to install it manually, that is, deleting the subscription and creating a new one, the installation or update may not succeed. The easy fix is to install CP4D in a new cluster.
+
+![Openshift Installed Operator](media/openshift-installed-operators.png)
+
+### OpenShift Worker Nodes
+
+If the OpenShift cluster has been provisioned without adequate computing resources, e.g. CPUs and memories, you may experience issues with data lineage, for example, data lineage import job failure and profile data failure.
+
+While there are no definitive data, we are able to address one data lineage issue by replacing one 7-node cluster with a five-node cluster that comes with 32 cores and 128GB on each node.
+
+Seven-node cluster
+
+![OpenShift with Seven Nodes](media/openshift-seven-node.png)
+
+Five-nocd cluster
+
+![OpenShift with Five Nodes](media/openshift-five-node.png)
+
+### Check RabbitMQ Pods
+
+The IBM Support team would ask you to check if the RabbitMQ pods are running. Go to the admin console of the OpenShift cluster, select Pods under Workloads from the left side navigation panel. Enter "rabbitmq" in the search box. You will see something similar to the screen below. Make sure all the RabbitMQ pods are running.
+
+![OpenShift RabbitMQ Pods](media/rabbitmq.png)
+
+### Check Data Lineage License and Process Manager
+
+You can log in to the Manta admin console which is available in the same cluster. If single sign one is not eabled, you will need the admin's password. 
+
+To view and update licensing information, use the url below. Or, click on "Configuration" from the top, and select "License" from the left side. 
 
 ```
-<CP4D url>/manta-admin-gui/app/#/platform/processmanager
+<CP4D url>/manta-admin-gui/app/index.html#/platform/license
 ```
 
 ![Manta License](media/manta-license.png)
 
+To view the process manager and logs, use the url below. Or, click on "Process Manager" from the top.
+
+```
+<CP4D url>/manta-admin-gui/app/index.html#/platform/processmanager
+```
+
+![Manta Process Manager](media/manta-process-manager.png)
+
+You can download the logs in Zip format under the Outputs column on the left side. This is useful information when you contact the IBM Support team.
