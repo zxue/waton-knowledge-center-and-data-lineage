@@ -8,7 +8,7 @@ When Cloud Pak for Data (CP4D version 4.5.3 or later) is installed and Watson Kn
 
 However, the data lineage feature must be configured before it’s available for use in WKC. This document outlines the configuration steps.
 
-## Obtain the Manta License Key
+## Obtain Manta License Key
 
 Manta is broadly available in data technologies by companies such as IBM, Google, Amazon, Microsoft, SAP, Snowflake, Tableau, Talend, and Teradata. Refer to [Manta licensing policy](https://getmanta.com/licensing-policy/) for more details. The licenses for data lineage from Manta are available through purchases of cloud services.
 
