@@ -291,3 +291,45 @@ To view the process manager and logs, use the url below. Or, click on "Process M
 ![Manta Process Manager](media/manta-process-manager.png)
 
 You can download the logs in Zip format under the Outputs column on the left side. This is useful information when you contact the IBM Support team.
+
+### Fix Manta Flow Server and CLI License Issue
+
+You may notice a license issue that "Flow Server and CLI have different licenses" in Manta admin console as shown. 
+
+![Manta License Issue](media/manta-license-issue.png)
+
+You can fix the issue by deleting the manta dataflow pod, and the two metadata pods, metadata-discovery=xxx and wkc-metadata-imports.
+
+Delete Manta Dataflow Pod
+![Delete Manta Dataflow Pod](media/manta-dataflow-pod.png)
+
+Delete Manta Metadata Pods
+![Delete Manta Metadata Pods](media/manta-metadata-pods.png)
+
+### Enabling WKC Issue
+
+You may encounter issues when trying to enable WKC, DB2, Data Management Console, and other services at once with Daffy. 
+
+```
+FAILED:IBM Watson Knowledge Catalog instance could not be installed
+```
+
+One workaround is that you enable WKC first, and then enable DB2 and other services by setting their variables to true and running the `service.sh` command again and don't have to wait until WKC is completed. 
+
+```
+/data/daffy/tmp/cpdcli/cpd-cli-linux-EE-11.3.0-52/cpd-cli manage apply-olm --release=4.5.3 --cpd_operator_ns=ibm-common-services --components=wkc
+⏰  TIMER 11 minutes have elapsed
+
+COMPLETE  WKC Operator installed
+wkc.wkc.cpd.ibm.com/wkc-cr unchanged
+
+Your request to install the service has been submitted.  It can take 3 hours or more.
+To check on the status of your service, you can run the following command:
+/data/daffy/cp4d/service.sh <cluster name> --WKCStatus
+```
+
+You can check the status for WKC with the following command.
+
+```
+/data/daffy/cp4d/service.sh <cluster name> --WKCStatus
+```
