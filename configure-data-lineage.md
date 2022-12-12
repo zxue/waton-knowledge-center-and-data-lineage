@@ -42,7 +42,7 @@ The license key is presented in an XML format and saved in a license.key file. T
 
 Enabling the lineage feature of MANTA Automated Data Lineage is an optional step and is only needed if you want to import lineage information in addition to basic metadata.
 
-To enable Manta and Knowledge Graph, go to custom resources in OpenShift. Search "wkc", and open it. Select the Instances tab, and click on "wkc-cr". Open and modify the Yaml file and change both "enableManta" and "enableKnowledgeGrpha" to "true".
+To enable Manta and Knowledge Graph, go to custom resources under Administration in OpenShift. Search "wkc", and open it. Select the Instances tab, and click on "wkc-cr" instance. Open and modify the Yaml file and change both "enableManta" and "enableKnowledgeGrpha" to "true".
 
 ![WKC CR](media/wkc-cr.png)
 
@@ -126,7 +126,7 @@ cert_filename=
 cert_key_filename=
 ```
 
-Run the following command to install the certificates and enable basic authentication by entering "y" at the prompt. 
+Ensure that WKC has been eanbled and the "wkc-cr" resource shows the "Completed" status, not "InProgress", as discussed before. Then, run the following command to install the certificates and enable basic authentication by entering "y" at the prompt. 
 
 ```
 ./install.sh
@@ -187,7 +187,7 @@ If the single sign on (SSO) is enabled in the cluster, you can also enable SSO i
 
 Note that SSO is not required and if it is not enabled, you can use basic authentication to log in to the Manta administration portal.
 
-### Obtain Admin Credentials
+### Obtain Manta Admin Credentials
 
 You can find the basic authenticaiton password from the OpenShift console. Select Secrets under Workloads from the left side navigation pane. Search for "manta" or "credentials" in all projects or the project where Manta operator is installed, for example, "cpd-instance". Locate and click on "manta-credentials". Scroll down the page and copy the "Manta_Password".
 
