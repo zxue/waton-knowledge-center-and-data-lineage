@@ -38,6 +38,7 @@ The license key is presented in an XML format and saved in a license.key file. T
     <hash>P2kr … LnQ==</hash>
 </license>
 ```
+
 ## Enable Manta Automated Data Lineage in OpenShift 
 
 Enabling the lineage feature of MANTA Automated Data Lineage is an optional step and is only needed if you want to import lineage information in addition to basic metadata.
@@ -52,6 +53,7 @@ Alternatively, you can use the oc command to enable Manta and Knowledge Graph.
 oc project cpd-instance
 oc edit wkc wkc-cr
 ```
+
 It may take 15 minutes or longer to update the custom resource. To check the status, run the following oc command and ensure that all three pods are running and the wkc-cr status is "completed".
 
 ```
@@ -76,6 +78,11 @@ Alternatively, you can log in to OpenShift and apply the license key using the o
 ```
 oc set data secret/manta-keys -n <namespace> --from-file=license.key=./license.key
 ```
+
+If you try to use data lineage for the update completes, you will be asked to provide a valid license key. Use the `oc get wkc` command to ensure that WKC is ready.
+
+![Manta License Key](media/valid-manta-license-key.png)
+
 
 ## Configure Data Lineage Using Self-signed Certificates
 
