@@ -208,7 +208,11 @@ oc get secret manta-credentials -o yaml
 oc get secret manta-credentials -o yaml |grep MANTA_PASSWOR
 ```
 
-Note that you will need to decode the strings.
+Note that you will need to decode the strings using online tools or the command below.
+
+```
+echo "password string e.g. RjVrQmFlM291ag==" |base64 -d
+```
 
 ### Update Manta License Key with the Script
 
