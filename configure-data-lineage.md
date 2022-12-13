@@ -4,8 +4,6 @@ Data lineage is the process of tracking the flow of data over time, providing a 
 
 When Cloud Pak for Data (CP4D version 4.5.3 or later) is installed and Watson Knowledge Catalog (WKC) is enabled in an OpenShift cluster, the data lineage operator named “MANTA Automated Data Lineage” is installed automatically. 
 
-Many thanks to the WKC team who provided configuration and troubleshooting guidance during the process, specifically Andrew Wang, Andrzej Wrobel, Jojo Joseph, Sathis Marudanayagam Rajendra.
-
 ![MANTA Automated Data Lineage](media/manta-operator.png)
 
 However, the data lineage feature must be configured before it’s available for use in WKC. This document outlines the configuration steps.
@@ -335,3 +333,7 @@ You can check the status for WKC with the following command.
 ```
 /data/daffy/cp4d/service.sh <cluster name> --WKCStatus
 ```
+
+## Contributors
+
+Many thanks to the WKC team who provided configuration and troubleshooting guidance during the process, specifically Andrew Wang, Andrzej Wrobel, Jojo Joseph, Sathis Marudanayagam Rajendra.
