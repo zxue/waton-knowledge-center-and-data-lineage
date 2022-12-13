@@ -88,7 +88,7 @@ If you try to use data lineage for the update completes, you will be asked to pr
 
 This step is optional and only applicable if self-signed certificates are used. 
 
-Download the the “cert-tool.tar” utility file, which contains scripts to create and apply certificates to Manta services. This tool is currently available to IBM employees only. 
+Download the the “[cert-tool](https://github.ibm.com/wdp-gov/cert-tool)” from Github, which contains scripts to create and apply certificates to Manta services. This tool is currently available to IBM employees only. 
 
 You can then extract the file to a local folder on your Linux or Mac. The scripts are now available.
 
