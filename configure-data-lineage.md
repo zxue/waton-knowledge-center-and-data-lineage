@@ -200,6 +200,15 @@ You can find the basic authenticaiton password from the OpenShift console. Selec
 
 ![Manta Credentials](media/manta-credentials.png)
 
+You can also run the command below to find the Manta admin credentials.
+
+```
+oc project cpd-instance
+oc get secret manta-credentials -o yaml
+oc get secret manta-credentials -o yaml |grep MANTA_PASSWOR
+```
+
+Note that you will need to decode the strings.
 
 ### Update Manta License Key with the Script
 
