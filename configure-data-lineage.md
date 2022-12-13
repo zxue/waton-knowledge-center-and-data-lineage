@@ -208,10 +208,46 @@ oc get secret manta-credentials -o yaml
 oc get secret manta-credentials -o yaml |grep MANTA_PASSWOR
 ```
 
-Note that you will need to decode the strings using online tools or the command below.
+The yaml file looks like:
 
 ```
-echo "password string e.g. RjVrQmFlM291ag==" |base64 -d
+apiVersion: v1
+data:
+  MANTA_CLIENT_ID: bWFudGE=
+  MANTA_CLIENT_NAME: YXBpLWNsaWVudA==
+  MANTA_CLIENT_SECRET: a3Bwa3hxNzNkMQ==
+  MANTA_MASTERPASSWORD: RGw4Zmp6MXZ4bQ==
+  MANTA_PASSWORD: RjVrQmFlM291ag==
+  MANTA_USER: YWRtaW4=
+  MTLS_KEYSTORE_PASSWORD: dXdGczk2cGx0ZA==
+kind: Secret
+metadata:
+  creationTimestamp: "2022-12-12T14:52:30Z"
+  labels:
+    app: wkc-prereqs
+    app.kubernetes.io/instance: wkc-prereqs
+    app.kubernetes.io/managed-by: Tiller
+    app.kubernetes.io/name: wkc-prereqs
+    chart: wkc-prereqs
+    helm.sh/chart: wkc-prereqs
+    heritage: Tiller
+    release: wkc-prereqs
+  name: manta-credentials
+  namespace: cpd-instance
+  ownerReferences:
+  - apiVersion: wkc.cpd.ibm.com/v1beta1
+    kind: WKC
+    name: wkc-cr
+    uid: cf910b58-c788-45b1-af7f-c874db3fa1eb
+  resourceVersion: "528461"
+  uid: 873eb751-4d5f-47ab-b5a0-f270959aa60d
+type: Opaque
+```
+
+Note that you will need to decode the strings using online tools or the command below. Replace the password string with yours.
+
+```
+echo "RjVrQmFlM291ag==" |base64 -d
 ```
 
 ### Update Manta License Key with the Script
